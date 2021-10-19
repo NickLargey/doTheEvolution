@@ -68,6 +68,24 @@
             value: 0,
           },
         ]);
+        let time = 30;
+        const timeLeft = add([
+          text("Time: "),
+          pos(60, 65),
+          scale(2),
+          layer("ui"),
+          {
+            value: 0,
+          },
+        ]);
+
+        loop(1, () => {
+          --time;
+          timeLeft.text = "Time: " + time;
+          if (time == 0) {
+            go("death", heroCount);
+          }
+        });
 
         function grow() {
           return {
@@ -128,8 +146,8 @@
             "|                        |",
             "|     xx               xx|",
             "|xx            xxx       |",
-            "|                        |",
-            "|xxx  xxxxxxxxx  xxx  xxx|",
+            "|        xx              |",
+            "|xxxxxxxxxxxxxxxxxxxxxxxx|",
           ],
           {
             width: 40,
@@ -156,9 +174,9 @@
           hero.changeSprite("hero");
           score.text = "Single Cell Organisms Gobbled: " + heroCount;
         });
-        let timer = rand(1, 5);
+        let t = rand(1, 5);
 
-        loop(timer, () => {
+        loop(t, () => {
           if (vCount <= 8) {
             add([
               sprite("virus"),
@@ -170,7 +188,7 @@
               "virus",
             ]);
             vCount++;
-            timer = rand(1, 5);
+            t = rand(1, 5);
           }
         });
 
@@ -188,10 +206,10 @@
           b3.jump(JUMP_FORCE);
         });
       });
-      
+
       scene("death", (score) => {
         add([
-          text("Total Gobbled" + `${score}`, 64),
+          text("Total Gobbled: " + score, 24),
           pos(width() / 2, height() / 2),
           origin("center"),
         ]);
